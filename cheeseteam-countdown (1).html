@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CheeseTeam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 90vw;
+        }
+        
+        h1 {
+            font-size: clamp(2rem, 8vw, 6rem);
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+            background: linear-gradient(45deg, #ff8c00, #ffd700, #ff8c00, #ffd700);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite, glow 2s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.3));
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        
+        @keyframes glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.3)) brightness(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.6)) brightness(1.2);
+            }
+        }
+        
+        .timer {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            gap: clamp(1rem, 3vw, 2rem);
+            flex-wrap: wrap;
+        }
+        
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: clamp(60px, 15vw, 120px);
+        }
+        
+        .time-value {
+            font-size: clamp(2rem, 6vw, 4rem);
+            line-height: 1;
+            color: #fff;
+        }
+        
+        .time-label {
+            font-size: clamp(0.7rem, 2vw, 1rem);
+            opacity: 0.7;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .description {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .explosion-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: flashExplosion 0.5s ease-out;
+        }
+        
+        .explosion-overlay.active {
+            display: flex;
+        }
+        
+        .explosion-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            animation: zoomIn 1s ease-out;
+        }
+        
+        .explosion-emoji {
+            font-size: 20rem;
+            animation: zoomIn 1s ease-out;
+            filter: none;
+            font-family: Arial, sans-serif;
+        }
+        
+        .final-message {
+            font-size: clamp(2rem, 8vw, 5rem);
+            font-weight: bold;
+            letter-spacing: 0.2em;
+            text-align: center;
+            color: #fff;
+            animation: zoomIn 1s ease-out;
+        }
+        
+        @keyframes flashExplosion {
+            0% { background: #fff; }
+            20% { background: #ff8c00; }
+            40% { background: #ffd700; }
+            60% { background: #ff8c00; }
+            100% { background: #000; }
+        }
+        
+        @keyframes zoomIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .test-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #ff8c00;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+        
+        .test-button:hover {
+            background: #ffd700;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CheeseTeam</h1>
+        <p class="description">
+            La légende renaît. CheeseTeam revient en force, 
+            prête à reconquérir sa place au sommet. Le compte à rebours est lancé.
+        </p>
+        <div class="timer" id="timer">
+            <div class="time-unit">
+                <span class="time-value" id="days">00</span>
+                <span class="time-label">Jours</span>
+            </div>
+            <div class="time-unit">
+                <span class="time-value" id="hours">00</span>
+                <span class="time-label">Heures</span>
+            </div>
+            <div class="time-unit">
+                <span class="time-value" id="minutes">00</span>
+                <span class="time-label">Minutes</span>
+            </div>
+            <div class="time-unit">
+                <span class="time-value" id="seconds">00</span>
+                <span class="time-label">Secondes</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="explosion-overlay" id="explosionOverlay">
+        <div class="final-message">LA RENAISSANCE COMMENCE !</div>
+    </div>
+    
+    <audio id="explosionSound" preload="auto">
+        <source src="https://cdn.freesound.org/previews/442/442127_5121236-lq.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const targetDate = new Date('2026-01-19T23:59:59').getTime();
+        let explosionTriggered = false;
+        
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            
+            if (distance < 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                
+                if (!explosionTriggered) {
+                    explosionTriggered = true;
+                    triggerExplosion();
+                }
+                return;
+            }
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+        
+        function triggerExplosion() {
+            const overlay = document.getElementById('explosionOverlay');
+            const sound = document.getElementById('explosionSound');
+            
+            sound.play().catch(e => console.log('Audio playback failed:', e));
+            overlay.classList.add('active');
+        }
+        
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
