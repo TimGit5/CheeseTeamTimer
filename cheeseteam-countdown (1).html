@@ -3,265 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CheeseTeam</title>
+    <title>🧀 TIM01 SHOP</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg: #050505;
+            --card-bg: #0d0d0d;
+            --cheese: #ffcc00;
+            --cheese-glow: rgba(255, 204, 0, 0.3);
+            --success: #2ecc71;
+            --text: #ffffff;
         }
-        
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-        
-        .container {
-            text-align: center;
-            padding: 20px;
-            max-width: 90vw;
-        }
-        
-        h1 {
-            font-size: clamp(2rem, 8vw, 6rem);
-            margin-bottom: 2rem;
-            letter-spacing: 0.1em;
-            background: linear-gradient(45deg, #ff8c00, #ffd700, #ff8c00, #ffd700);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 3s ease infinite, glow 2s ease-in-out infinite;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.3));
-        }
-        
-        @keyframes gradientShift {
-            0%, 100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-        
-        @keyframes glow {
-            0%, 100% {
-                filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.3)) brightness(1);
-            }
-            50% {
-                filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.6)) brightness(1.2);
-            }
-        }
-        
-        .timer {
-            font-size: clamp(1.5rem, 5vw, 3rem);
-            font-weight: bold;
-            font-family: 'Courier New', monospace;
-            display: flex;
-            justify-content: center;
-            gap: clamp(1rem, 3vw, 2rem);
-            flex-wrap: wrap;
-        }
-        
-        .time-unit {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: clamp(60px, 15vw, 120px);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-        
-        .time-value {
-            font-size: clamp(2rem, 6vw, 4rem);
-            line-height: 1;
-            color: #fff;
-        }
-        
-        .time-label {
-            font-size: clamp(0.7rem, 2vw, 1rem);
-            opacity: 0.7;
-            margin-top: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-        
-        .description {
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            margin-bottom: 3rem;
-            opacity: 0.9;
-            line-height: 1.6;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .explosion-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            animation: flashExplosion 0.5s ease-out;
-        }
-        
-        .explosion-overlay.active {
-            display: flex;
-        }
-        
-        .explosion-image {
-            max-width: 90vw;
-            max-height: 90vh;
-            object-fit: contain;
-            animation: zoomIn 1s ease-out;
-        }
-        
-        .explosion-emoji {
-            font-size: 20rem;
-            animation: zoomIn 1s ease-out;
-            filter: none;
-            font-family: Arial, sans-serif;
-        }
-        
-        .final-message {
-            font-size: clamp(2rem, 8vw, 5rem);
-            font-weight: bold;
-            letter-spacing: 0.2em;
+
+        header {
             text-align: center;
-            color: #fff;
-            animation: zoomIn 1s ease-out;
+            padding: 80px 20px 40px;
+            animation: fadeIn 0.8s ease-out;
         }
-        
-        @keyframes flashExplosion {
-            0% { background: #fff; }
-            20% { background: #ff8c00; }
-            40% { background: #ffd700; }
-            60% { background: #ff8c00; }
-            100% { background: #000; }
+
+        h1 { 
+            font-size: 3rem; 
+            margin: 0;
+            text-shadow: 0 0 20px var(--cheese-glow);
         }
-        
-        @keyframes zoomIn {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1);
-            }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            animation: fadeIn 1s ease-out both;
+            animation-delay: 0.2s;
         }
-        
-        .test-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background: #ff8c00;
-            color: #000;
+
+        /* Carte avec bordure animée au survol */
+        .code-card {
+            background: var(--card-bg);
+            border: 1px solid #222;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .code-card:hover {
+            border-color: var(--cheese);
+            box-shadow: 0 0 30px var(--cheese-glow);
+            transform: scale(1.01);
+        }
+
+        .card-header {
+            padding: 25px;
+            background: linear-gradient(90deg, #111, #161616);
+            border-bottom: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 { 
+            margin: 0; 
+            font-size: 1.1rem; 
+            letter-spacing: 2px;
+            color: var(--cheese);
+            text-transform: uppercase;
+        }
+
+        /* Personnalisation de la zone de code */
+        pre[class*="language-"] {
+            margin: 0 !important;
+            padding: 30px !important;
+            font-size: 0.95rem !important;
+            background: transparent !important;
+            line-height: 1.6;
+        }
+
+        .copy-btn {
+            background: #1a1a1a;
+            color: var(--text);
             border: none;
-            border-radius: 5px;
+            padding: 20px;
+            width: 100%;
             font-weight: bold;
             cursor: pointer;
-            font-size: 14px;
-            z-index: 100;
-            transition: all 0.3s;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            border-top: 1px solid #222;
         }
-        
-        .test-button:hover {
-            background: #ffd700;
-            transform: scale(1.05);
+
+        .copy-btn:hover {
+            background: #222;
+            color: var(--cheese);
         }
+
+        /* Classe active quand on copie */
+        .copy-btn.copied {
+            background: rgba(46, 204, 113, 0.1) !important;
+            color: var(--success) !important;
+            border-top-color: var(--success);
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 40px;
+            color: #444;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Barre de défilement stylisée */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--cheese); }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>CheeseTeam</h1>
-        <p class="description">
-            La légende renaît. CheeseTeam revient en force, 
-            prête à reconquérir sa place au sommet. Le compte à rebours est lancé.
-        </p>
-        <div class="timer" id="timer">
-            <div class="time-unit">
-                <span class="time-value" id="days">00</span>
-                <span class="time-label">Jours</span>
-            </div>
-            <div class="time-unit">
-                <span class="time-value" id="hours">00</span>
-                <span class="time-label">Heures</span>
-            </div>
-            <div class="time-unit">
-                <span class="time-value" id="minutes">00</span>
-                <span class="time-label">Minutes</span>
-            </div>
-            <div class="time-unit">
-                <span class="time-value" id="seconds">00</span>
-                <span class="time-label">Secondes</span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="explosion-overlay" id="explosionOverlay">
-        <div class="final-message">LA RENAISSANCE COMMENCE !</div>
-    </div>
-    
-    <audio id="explosionSound" preload="auto">
-        <source src="https://cdn.freesound.org/previews/442/442127_5121236-lq.mp3" type="audio/mpeg">
-    </audio>
 
-    <script>
-        const targetDate = new Date('2026-01-19T23:59:59').getTime();
-        let explosionTriggered = false;
-        
-        function updateTimer() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+<header>
+    <h1>🧀 <span style="color: var(--cheese);">TIM01 SHOP</span></h1>
+</header>
+
+<div class="container">
+    <div class="code-card">
+        <div class="card-header">
+            <h3>KEYBOARD TYPING SYSTEM</h3>
+            <span style="font-size: 0.7rem; opacity: 0.5;">VERSE v1.0</span>
+        </div>
+        <pre><code class="language-clike" id="typingSystem">using { /Fortnite.com/Devices }
+using { /Verse.org/Simulation }
+using { /UnrealEngine.com/Temporary/Diagnostics }
+
+MakeMessage<localizes>(Text : string) : message = "{Text}"
+
+Hud_Message_Device := class :
+
+    @editable
+    MessageDevice : hud_message_device = hud_message_device{}
+
+    @editable
+    HudTrigger: trigger_device = trigger_device{}
+
+    @editable
+    Messages : []string = array{}
+
+    @editable
+    TimerPerMessages : []float = array{}
+
+    var CurrentTextPosition : int = 0
+
+    ShowAMessage2()<suspends>:void =
+        if (Input := Messages[CurrentTextPosition],TimerPerChar := ((TimerPerMessages[CurrentTextPosition])/(Input.Length*1.0))):
+            for (Index := 0..Input.Length - 1):
+                if (SubStr := Input.Slice[0, Index +1]):
+                    Print(SubStr)
+                    MessageDevice.SetText(MakeMessage(SubStr))
+                    MessageDevice.Show()
+                    Sleep(TimerPerChar)
+        set CurrentTextPosition += 1
+
+    ShowAMessage(MaybeAgent:?agent):void =
+        spawn{ShowAMessage2()}
+
+    Init():void=
+        HudTrigger.TriggeredEvent.Subscribe(ShowAMessage)
+
+test := class(creative_device):
+
+    @editable
+    TypingMessageClass : []Hud_Message_Device = array{}
+
+    OnBegin<override>()<suspends>:void =
+        for ( Message : TypingMessageClass ):
+            Message.Init()</code></pre>
+        <button class="copy-btn" id="btnCopy" onclick="copy(this, 'typingSystem')">
+            <span>COPIER LE CODE</span>
+        </button>
+    </div>
+</div>
+
+<footer>
+    🧀 TIM01 SHOP &bull; 2026
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+
+<script>
+    function copy(btn, id) {
+        const text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            const originalText = btn.innerHTML;
             
-            if (distance < 0) {
-                document.getElementById('days').textContent = '00';
-                document.getElementById('hours').textContent = '00';
-                document.getElementById('minutes').textContent = '00';
-                document.getElementById('seconds').textContent = '00';
-                
-                if (!explosionTriggered) {
-                    explosionTriggered = true;
-                    triggerExplosion();
-                }
-                return;
-            }
+            // Animation de succès
+            btn.classList.add('copied');
+            btn.innerHTML = "<span>COPIÉ ! ✅</span>";
             
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            document.getElementById('days').textContent = String(days).padStart(2, '0');
-            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-        }
-        
-        function triggerExplosion() {
-            const overlay = document.getElementById('explosionOverlay');
-            const sound = document.getElementById('explosionSound');
-            
-            sound.play().catch(e => console.log('Audio playback failed:', e));
-            overlay.classList.add('active');
-        }
-        
-        updateTimer();
-        setInterval(updateTimer, 1000);
-    </script>
+            setTimeout(() => {
+                btn.classList.remove('copied');
+                btn.innerHTML = originalText;
+            }, 2000);
+        });
+    }
+</script>
+
 </body>
 </html>
